@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Події</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fcfcfc;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #FFFFE0;
+            width: 90%;
+            max-width: 900px;
+        }
+        td {
+            border: 1px solid #dcdcdc;
+            padding: 20px;
+            width: 33.33%;
+            vertical-align: middle;
+            text-align: center;
+        }
+        .event-text {
+            font-size: 14px;
+            color: #0000CD;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="button"], input[type="text"] {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        input[type="text"] {
+            cursor: text;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function triggerAlert(message) {
+            alert("Сценарій запущено в момент " + message);
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Події</h1>
+
+    <table>
+        <tr>
+            <td>
+                <div class="event-text">Торкання курсора із об'єктом</div>
+                <input type="button" value="Торкнись мене!" onmouseover="triggerAlert('торкання курсора (onMouseOver)')">
+            </td>
+            <td>
+                <div class="event-text">Однократне клацання миші</div>
+                <input type="button" value="Клацніть!" onclick="triggerAlert('однократного клацання миші (onClick)')">
+            </td>
+            <td>
+                <div class="event-text">Клацніть по кнопці (Фокус)</div>
+                <input type="button" value="Запуск" onfocus="triggerAlert('отримання фокусу кнопкою (onFocus)')">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="event-text">Подвійне клацання миші</div>
+                <input type="button" value="Клацніть двічі!" ondblclick="triggerAlert('подвійного клацання миші (onDblClick)')">
+            </td>
+            <td>
+                <div class="event-text">Курсор покидає площу кнопки</div>
+                <input type="button" value="Проведіть по кнопці!" onmouseout="triggerAlert('виходу курсора за межі кнопки (onMouseOut)')">
+            </td>
+            <td>
+                <div class="event-text">Введіть символ та клацніть за межами поля</div>
+                <input type="text" size="10" onchange="triggerAlert('зміни тексту та втрати фокусу (onChange)')">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="event-text">Відпускання кнопки миші над об'єктом</div>
+                <input type="button" value="Спрацьовує при відпусканні!" onmouseup="triggerAlert('відпускання кнопки миші (onMouseUp)')">
+            </td>
+            <td>
+                <div class="event-text">Обробка події в момент натискання</div>
+                <input type="button" value="Натисніть!" onmousedown="triggerAlert('натискання кнопки миші (onMouseDown)')">
+            </td>
+            <td>
+                <div class="event-text">Введіть символ (Відпускання клавіші)</div>
+                <form name="Formpress2">
+                    <input name="InpText" value="" size="4" type="text" onkeyup="triggerAlert('відпускання клавіші на клавіатурі (onKeyUp)')">
+                </form>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

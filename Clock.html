@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Електронний годинник</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #000;
+            margin-bottom: 30px;
+        }
+        table {
+            border: 0;
+            width: 100%;
+            max-width: 600px;
+        }
+        td {
+            padding: 8px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .label-cell {
+            width: 40%;
+            text-align: left;
+        }
+        .input-cell {
+            width: 60%;
+        }
+        input[type="text"] {
+            width: 100%;
+            font-size: 18px;
+            padding: 4px;
+            box-sizing: border-box;
+            border: 1px solid #999;
+            background-color: #fff;
+        }
+    </style>
+    <script>
+        var nTimer = 0;
+        var szCurrentTime = "";
+        var szCurrentDate = "";
+        var szTimeZone = "";
+        var szGMT = "";
+        var szLocal = "";
+
+        function updateClock() {
+            var dtDate = new Date();
+            
+            // Отримуємо компоненти часу
+            var nHours = dtDate.getHours();
+            var nMinutes = dtDate.getMinutes();
+            var nSeconds = dtDate.getSeconds();
+            
+            // Форматування додаванням нуля попереду, якщо число < 10
+            if (nHours < 10) nHours = "0" + nHours;
+            if (nMinutes < 10) nMinutes = "0" + nMinutes;
+            if (nSeconds < 10) nSeconds = "0" + nSeconds;
+            
+            szCurrentTime = nHours + ":" + nMinutes + ":" + nSeconds;
+            
+            // Форматування поточної локальної дати (День.Місяць.Рік)
+            // До getMonth() додаємо 1, бо місяці в JS рахуються з 0 до 11
+            var nDay = dtDate.getDate();
+            var nMonth = dtDate.getMonth() + 1;
+            var nYear = dtDate.getFullYear().toString().substr(-2); // Останні 2 цифри року
+            
+            if (nDay < 10) nDay = "0" + nDay;
+            if (nMonth < 10) nMonth = "0" + nMonth;
+            szCurrentDate = nDay + "." + nMonth + "." + nYear;
+            
+            // Зсув часового поясу (ділимо хвилини на 60, міняємо знак для відповідності GMT стандартLayout)
+            szTimeZone = dtDate.getTimezoneOffset() / 60;
+            if (szTimeZone > 0) {
+                szTimeZone = "-" + szTimeZone;
+            } else if (szTimeZone < 0) {
+                szTimeZone = "+" + Math.abs(szTimeZone);
+            }
+
+            szGMT = dtDate.toGMTString();
+            szLocal = dtDate.toLocaleString('uk-UA'); // Локалізований формат для України
+
+            // Запис значень у поля форми
+            document.Clock.time.value = szCurrentTime;
+            document.Clock.dat.value = szCurrentDate;
+            document.Clock.timeZone.value = szTimeZone;
+            document.Clock.gmt.value = szGMT;
+            document.Clock.loc.value = szLocal;
+
+            // Наступне виконання через 1 секунду (1000 мс)
+            nTimer = setTimeout("updateClock()", 1000);
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Електронний годинник</h1>
+
+    <form name="Clock">
+        <table>
+            <tr>
+                <td class="label-cell">Дата:</td>
+                <td class="input-cell"><input type="text" name="dat" size="20" readonly></td>
+            </tr>
+            <tr>
+                <td class="label-cell">Час:</td>
+                <td class="input-cell"><input type="text" name="time" size="20" readonly></td>
+            </tr>
+            <tr>
+                <td class="label-cell">Зміщення часового пояса:</td>
+                <td class="input-cell"><input type="text" name="timeZone" size="20" readonly></td>
+            </tr>
+            <tr>
+                <td class="label-cell">Дата GMT:</td>
+                <td class="input-cell"><input type="text" name="gmt" size="30" readonly></td>
+            </tr>
+            <tr>
+                <td class="label-cell">Локальна дата:</td>
+                <td class="input-cell"><input type="text" name="loc" size="30" readonly></td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        updateClock();
+    </script>
+
+</body>
+</html>
