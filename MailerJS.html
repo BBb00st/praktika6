@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Поштова форма</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .mail-table {
+            border: 2px solid #0000CD;
+            margin: 0 auto;
+            cellspacing: 1px;
+            cellpadding: 5px;
+            background-color: #FFFFE0;
+            width: 450px;
+        }
+        .label-text {
+            font-size: 14px;
+            color: #0000CD;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .input-field {
+            width: 90%;
+            padding: 5px;
+            margin: 5px;
+        }
+        .btn-container {
+            text-align: center;
+            padding: 10px;
+        }
+        .btn {
+            padding: 5px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        var mailtoandSubject = "";
+
+        // Функція збирання теми та повідомлення
+        function msg(form) {
+            mailtoandSubject = "?Subject=" + encodeURIComponent(form.Subject.value) + 
+                               "&body=" + encodeURIComponent("Від: " + form.Name.value + "\n\n" + form.Message.value);
+        }
+
+        // Функція валідації форми
+        function checkIt() {
+            var form = document.forms.mailer;
+
+            // Перевірка імені
+            if (form.Name.value.trim() === "") {
+                alert("\nОбласть \"Ім'я\" у формі.\nБудь ласка, введіть своє ім'я.");
+                form.Name.focus();
+                return false;
+            }
+
+            // Перевірка теми
+            if (form.Subject.value.trim() === "") {
+                alert("\nОбласть \"Тема\" в формі.\nБудь ласка, введіть тему.");
+                form.Subject.focus();
+                return false;
+            }
+
+            // Перевірка повідомлення
+            if (form.Message.value.trim() === "") {
+                alert("\nОбласть \"Повідомлення\" в формі.\nБудь ласка, напишіть повідомлення.");
+                form.Message.focus();
+                return false;
+            }
+
+            // Оновлюємо посилання перед надсиланням
+            msg(form);
+            form.action = "mailto:astra1990@meta.ua" + mailtoandSubject;
+            return true;
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Поштова форма</h1>
+
+    <form name="mailer" method="post" action="" enctype="text/plain" onsubmit="return checkIt()">
+        <table class="mail-table">
+            <tr>
+                <td class="label-text">Ім'я:</td>
+                <td><input type="text" name="Name" class="input-field" onchange="msg(this.form)"></td>
+            </tr>
+            <tr>
+                <td class="label-text">Тема:</td>
+                <td><input type="text" name="Subject" class="input-field" onchange="msg(this.form)"></td>
+            </tr>
+            <tr>
+                <td class="label-text">Повідомлення:</td>
+                <td>
+                    <textarea name="Message" rows="6" cols="40" class="input-field" onchange="msg(this.form)"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="btn-container">
+                    <input type="submit" value="Відправити" class="btn">
+                    <input type="reset" value="Очистити" class="btn">
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+</html>
